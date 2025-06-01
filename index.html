@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -285,9 +285,6 @@ Or Gujarati format:
                 const lines = orderText.split('\n').filter(line => line.trim() !== '');
                 const vegetableMap = new Map();
                 
-                // Enhanced regular expression to match vegetable orders in multiple formats
-                const regex = /(?:^|\d+\.\s*|-\s*)?([^-\d]+?)(?:\s*-\s*|\s+)(\d+(?:\.\d+)?\s*(?:kg|g|gram|grams|kilogram|kilograms)?(?:\s*\+\s*\d+(?:\.\d+)?\s*(?:kg|g|gram|grams|kilogram|kilograms)?)*/gi;
-                
                 // Process each line
                 for (const line of lines) {
                     // Skip lines that look like addresses, phone numbers, or names
@@ -295,71 +292,93 @@ Or Gujarati format:
                         continue;
                     }
                     
-                    let match;
-                    regex.lastIndex = 0; // Reset regex index
+                    // Try different patterns to extract vegetable and quantity
+                    const patterns = [
+                        // Pattern 1: "1. Vegetable Name - 2 kg"
+                        /^(?:\d+\.\s*)?([^-]+?)\s*-\s*([\d\.]+\s*(?:kg|g|grams?|kilograms?)(?:\s*\+\s*[\d\.]+\s*(?:kg|g|grams?|kilograms?)?)*/i,
+                        // Pattern 2: "Vegetable Name 2 kg"
+                        /^([^\d]+?)\s+([\d\.]+\s*(?:kg|g|grams?|kilograms?)(?:\s*\+\s*[\d\.]+\s*(?:kg|g|grams?|kilograms?)?)*/i,
+                        // Pattern 3: "ટામેટા (Tomatoes) - 3kg"
+                        /^([\u0A80-\u0AFF]+)\s*\(([^)]+)\)\s*[-\s]\s*([\d\.]+\s*(?:kg|g|grams?|kilograms?)(?:\s*\+\s*[\d\.]+\s*(?:kg|g|grams?|kilograms?)?)*/i
+                    ];
                     
-                    while ((match = regex.exec(line)) !== null) {
-                        let vegetableName = match[1].trim();
-                        const quantityStr = match[2] ? match[2].trim() : '';
-                        
-                        // Skip if no quantity found (might be a name or other text)
-                        if (!quantityStr) {
-                            continue;
+                    let match = null;
+                    let vegetableName = '';
+                    let gujaratiName = '';
+                    let englishName = '';
+                    let quantityStr = '';
+                    
+                    // Try each pattern until we find a match
+                    for (const pattern of patterns) {
+                        const testMatch = line.match(pattern);
+                        if (testMatch) {
+                            match = testMatch;
+                            break;
                         }
-                        
-                        // Extract Gujarati and English names if present
-                        let gujaratiName = '';
-                        let englishName = '';
-                        
-                        // Check for pattern like "ટામેટા (Tomatoes)"
-                        const nameMatch = vegetableName.match(/([\u0A80-\u0AFF]+)\s*\((.*?)\)/);
-                        
-                        if (nameMatch) {
-                            gujaratiName = nameMatch[1].trim();
-                            englishName = nameMatch[2].trim();
-                            vegetableName = englishName;
+                    }
+                    
+                    if (!match) continue;
+                    
+                    // Extract names and quantity based on which pattern matched
+                    if (match[1] && match[2] && !match[3]) {
+                        // Pattern 1 or 2 matched
+                        vegetableName = match[1].trim();
+                        quantityStr = match[2].trim();
+                    } else if (match[1] && match[2] && match[3]) {
+                        // Pattern 3 matched (Gujarati with English in parentheses)
+                        gujaratiName = match[1].trim();
+                        englishName = match[2].trim();
+                        vegetableName = englishName;
+                        quantityStr = match[3].trim();
+                    }
+                    
+                    // Skip if no quantity found (might be a name or other text)
+                    if (!quantityStr) {
+                        continue;
+                    }
+                    
+                    // Extract Gujarati and English names if not already set
+                    if (!gujaratiName && !englishName) {
+                        // Check if the name contains Gujarati characters
+                        const hasGujarati = /[\u0A80-\u0AFF]/.test(vegetableName);
+                        if (hasGujarati) {
+                            gujaratiName = vegetableName;
+                            englishName = ''; // No English name provided
                         } else {
-                            // If no parentheses, check if the name contains Gujarati characters
-                            const hasGujarati = /[\u0A80-\u0AFF]/.test(vegetableName);
-                            if (hasGujarati) {
-                                gujaratiName = vegetableName;
-                                englishName = ''; // No English name provided
-                            } else {
-                                englishName = vegetableName;
-                            }
+                            englishName = vegetableName;
                         }
-                        
-                        // Convert quantity to grams
-                        const grams = convertToGrams(quantityStr);
-                        
-                        // Skip if no valid quantity
-                        if (grams === 0) {
-                            continue;
+                    }
+                    
+                    // Convert quantity to grams
+                    const grams = convertToGrams(quantityStr);
+                    
+                    // Skip if no valid quantity
+                    if (grams === 0) {
+                        continue;
+                    }
+                    
+                    // Create a unique key combining both names
+                    const vegKey = (englishName || gujaratiName).toLowerCase();
+                    
+                    // Add to map or update existing entry
+                    if (vegetableMap.has(vegKey)) {
+                        const existing = vegetableMap.get(vegKey);
+                        existing.grams += grams;
+                        existing.quantityStrings.push(quantityStr);
+                        // Update names if we have new information
+                        if (gujaratiName && !existing.gujaratiName) {
+                            existing.gujaratiName = gujaratiName;
                         }
-                        
-                        // Create a unique key combining both names
-                        const vegKey = (englishName || gujaratiName).toLowerCase();
-                        
-                        // Add to map or update existing entry
-                        if (vegetableMap.has(vegKey)) {
-                            const existing = vegetableMap.get(vegKey);
-                            existing.grams += grams;
-                            existing.quantityStrings.push(quantityStr);
-                            // Update names if we have new information
-                            if (gujaratiName && !existing.gujaratiName) {
-                                existing.gujaratiName = gujaratiName;
-                            }
-                            if (englishName && !existing.englishName) {
-                                existing.englishName = englishName;
-                            }
-                        } else {
-                            vegetableMap.set(vegKey, {
-                                englishName: englishName,
-                                gujaratiName: gujaratiName,
-                                grams: grams,
-                                quantityStrings: [quantityStr]
-                            });
+                        if (englishName && !existing.englishName) {
+                            existing.englishName = englishName;
                         }
+                    } else {
+                        vegetableMap.set(vegKey, {
+                            englishName: englishName,
+                            gujaratiName: gujaratiName,
+                            grams: grams,
+                            quantityStrings: [quantityStr]
+                        });
                     }
                 }
                 
@@ -435,7 +454,7 @@ Or Gujarati format:
                 // Convert total grams to kg if needed
                 if (totalGrams >= 1000) {
                     const kg = totalGrams / 1000;
-                    return `${combined} = ${kg}kg (${totalGrams}g)`;
+                    return `${combined} = ${kg.toFixed(2)}kg (${totalGrams}g)`;
                 } else {
                     return `${combined} = ${totalGrams}g`;
                 }
