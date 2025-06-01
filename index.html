@@ -1,1368 +1,521 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Parshv Foods - Fresh Vegetables & Groceries Delivery</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    /* General Styles */
-    :root {
-      --primary-color: #2e7d32;
-      --secondary-color: #81c784;
-      --accent-color: #ff9800;
-      --light-bg: #f1f8e9;
-      --dark-text: #263238;
-      --light-text: #f5f5f5;
-      --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-    
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: var(--light-bg);
-      color: var(--dark-text);
-      line-height: 1.6;
-    }
-    
-    img {
-      max-width: 100%;
-      height: auto;
-    }
-    
-    /* Header Styles */
-    .header {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      box-shadow: var(--shadow);
-    }
-    
-    .notice-bar {
-      background-color: var(--accent-color);
-      color: #000;
-      text-align: center;
-      padding: 8px;
-      font-size: 0.9em;
-      font-weight: 500;
-    }
-    
-    .navbar {
-      background-color: var(--primary-color);
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .logo {
-      display: flex;
-      align-items: center;
-      color: white;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.2rem;
-    }
-    
-    .logo img {
-      height: 40px;
-      margin-right: 10px;
-    }
-    
-    .nav-links {
-      display: flex;
-      list-style: none;
-    }
-    
-    .nav-links a {
-      color: white;
-      text-decoration: none;
-      padding: 10px 15px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-      border-radius: 4px;
-    }
-    
-    .nav-links a:hover {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-    
-    .nav-links a i {
-      margin-right: 5px;
-    }
-    
-    /* Main Content */
-    .main-content {
-      margin-top: 100px;
-      padding: 20px;
-    }
-    
-    /* Container for all pages */
-    .container {
-      max-width: 900px;
-      margin: 20px auto;
-      padding: 25px;
-      background-color: #fff;
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-    }
-    
-    /* Hero Banner */
-    .hero-banner {
-      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1542838132-92c53300491e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
-      background-size: cover;
-      background-position: center;
-      color: white;
-      text-align: center;
-      padding: 60px 20px;
-      border-radius: 8px;
-      margin-bottom: 30px;
-    }
-    
-    .hero-banner h1 {
-      font-size: 2.5rem;
-      margin-bottom: 15px;
-    }
-    
-    .hero-banner p {
-      font-size: 1.2rem;
-      max-width: 700px;
-      margin: 0 auto 25px;
-    }
-    
-    /* Login Screen */
-    .login-screen {
-      text-align: center;
-    }
-    
-    .login-screen h1 {
-      color: var(--primary-color);
-      font-size: 2em;
-      margin-bottom: 20px;
-    }
-    
-    .form-group {
-      margin-bottom: 20px;
-      text-align: left;
-    }
-    
-    .form-group label {
-      display: block;
-      font-weight: 500;
-      color: #555;
-      margin-bottom: 8px;
-    }
-    
-    .form-group input {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 1em;
-      transition: border 0.3s ease;
-    }
-    
-    .form-group input:focus {
-      border-color: var(--primary-color);
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
-    }
-    
-    /* Button Styles */
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      background-color: var(--primary-color);
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 1em;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-align: center;
-      text-decoration: none;
-    }
-    
-    .btn:hover {
-      background-color: #1b5e20;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow);
-    }
-    
-    .btn:active {
-      transform: translateY(0);
-    }
-    
-    .btn-whatsapp {
-      background-color: #25D366;
-    }
-    
-    .btn-whatsapp:hover {
-      background-color: #128C7E;
-    }
-    
-    .btn-secondary {
-      background-color: var(--accent-color);
-    }
-    
-    .btn-secondary:hover {
-      background-color: #f57c00;
-    }
-    
-    /* Vegetable List */
-    .vegetable-list {
-      margin: 30px 0;
-    }
-    
-    .section-title {
-      color: var(--primary-color);
-      margin-bottom: 20px;
-      font-size: 1.5rem;
-      position: relative;
-      padding-bottom: 10px;
-    }
-    
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 60px;
-      height: 3px;
-      background-color: var(--accent-color);
-    }
-    
-    .vegetable-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-      padding: 15px;
-      background-color: #f9f9f9;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
-      transition: all 0.3s ease;
-    }
-    
-    .vegetable-item:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow);
-      border-color: var(--secondary-color);
-    }
-    
-    .vegetable-info {
-      display: flex;
-      flex-direction: column;
-    }
-    
-    .vegetable-name {
-      font-size: 1.1em;
-      color: var(--primary-color);
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-    
-    .vegetable-price {
-      font-size: 0.9em;
-      color: #666;
-    }
-    
-    .vegetable-controls {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    .quantity-input {
-      width: 70px;
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      text-align: center;
-    }
-    
-    .unit-select {
-      padding: 8px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      background-color: white;
-    }
-    
-    .item-total {
-      min-width: 80px;
-      text-align: right;
-      font-weight: 500;
-      color: var(--primary-color);
-    }
-    
-    /* Total and Order Summary */
-    .order-summary {
-      background-color: #f5f5f5;
-      padding: 20px;
-      border-radius: 8px;
-      margin-top: 30px;
-    }
-    
-    .total {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 1.3em;
-      font-weight: 600;
-      margin-top: 20px;
-      color: var(--primary-color);
-    }
-    
-    .total-amount {
-      font-size: 1.4em;
-      color: var(--accent-color);
-    }
-    
-    /* About Us Page */
-    .about-us {
-      text-align: center;
-    }
-    
-    .about-us h2 {
-      color: var(--primary-color);
-      margin-bottom: 20px;
-    }
-    
-    .about-content {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 30px;
-      align-items: center;
-      margin-top: 30px;
-    }
-    
-    .about-text {
-      flex: 1;
-      min-width: 300px;
-      text-align: left;
-    }
-    
-    .about-image {
-      flex: 1;
-      min-width: 300px;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-    
-    /* Contact Us Page */
-    .contact-form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    .contact-form input,
-    .contact-form textarea {
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 1em;
-      transition: border 0.3s ease;
-    }
-    
-    .contact-form input:focus,
-    .contact-form textarea:focus {
-      border-color: var(--primary-color);
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.2);
-    }
-    
-    .contact-form textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-    
-    /* How to Order Section */
-    .how-to-order {
-      padding: 20px;
-    }
-    
-    .how-to-order ol {
-      padding-left: 20px;
-      margin-bottom: 30px;
-    }
-    
-    .how-to-order li {
-      margin-bottom: 10px;
-    }
-    
-    /* Order History Section */
-    .order-history {
-      padding: 20px;
-    }
-    
-    .order-item {
-      background-color: #f5f5f5;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      border-left: 4px solid var(--primary-color);
-    }
-    
-    .order-item p {
-      margin-bottom: 5px;
-    }
-    
-    /* Modal for Viewing the Cart */
-    .modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      z-index: 2000;
-      overflow-y: auto;
-    }
-    
-    .modal-content {
-      background-color: white;
-      margin: 5% auto;
-      padding: 25px;
-      border-radius: 8px;
-      width: 90%;
-      max-width: 600px;
-      position: relative;
-      animation: modalopen 0.3s;
-    }
-    
-    @keyframes modalopen {
-      from {opacity: 0; transform: translateY(-50px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-    
-    .close {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 1.5rem;
-      color: #aaa;
-      cursor: pointer;
-      transition: color 0.3s ease;
-    }
-    
-    .close:hover {
-      color: var(--dark-text);
-    }
-    
-    .cart-item {
-      display: flex;
-      justify-content: space-between;
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-    }
-    
-    /* Special Offers Section */
-    .offers-section {
-      margin: 30px 0;
-    }
-    
-    .offer-cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 20px;
-    }
-    
-    .offer-card {
-      flex: 1;
-      min-width: 250px;
-      background-color: white;
-      border-radius: 8px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: transform 0.3s ease;
-    }
-    
-    .offer-card:hover {
-      transform: translateY(-5px);
-    }
-    
-    .offer-image {
-      height: 150px;
-      background-color: #ddd;
-      background-size: cover;
-      background-position: center;
-    }
-    
-    .offer-details {
-      padding: 15px;
-    }
-    
-    .offer-title {
-      font-weight: 600;
-      color: var(--primary-color);
-      margin-bottom: 5px;
-    }
-    
-    .offer-valid {
-      font-size: 0.8em;
-      color: #666;
-      margin-bottom: 10px;
-    }
-    
-    .offer-desc {
-      font-size: 0.9em;
-    }
-    
-    /* Footer */
-    .footer {
-      background-color: var(--primary-color);
-      color: white;
-      padding: 30px 20px;
-      margin-top: 50px;
-    }
-    
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 30px;
-    }
-    
-    .footer-section {
-      flex: 1;
-      min-width: 250px;
-    }
-    
-    .footer-section h3 {
-      margin-bottom: 15px;
-      font-size: 1.2rem;
-      position: relative;
-      padding-bottom: 10px;
-    }
-    
-    .footer-section h3::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 40px;
-      height: 2px;
-      background-color: var(--accent-color);
-    }
-    
-    .footer-section p, .footer-section a {
-      margin-bottom: 10px;
-      display: block;
-      color: rgba(255, 255, 255, 0.8);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-    
-    .footer-section a:hover {
-      color: white;
-    }
-    
-    .social-icons {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-    
-    .social-icons a {
-      color: white;
-      font-size: 1.2rem;
-    }
-    
-    .footer-bottom {
-      text-align: center;
-      padding-top: 20px;
-      margin-top: 20px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 0.9rem;
-    }
-    
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        padding: 15px;
-      }
-      
-      .nav-links {
-        margin-top: 15px;
-        width: 100%;
-        justify-content: space-around;
-      }
-      
-      .nav-links a {
-        padding: 8px;
-        font-size: 0.9rem;
-      }
-      
-      .main-content {
-        margin-top: 140px;
-      }
-      
-      .hero-banner h1 {
-        font-size: 2rem;
-      }
-      
-      .hero-banner p {
-        font-size: 1rem;
-      }
-      
-      .vegetable-item {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      
-      .vegetable-controls {
-        width: 100%;
-        margin-top: 10px;
-        justify-content: space-between;
-      }
-      
-      .about-content {
-        flex-direction: column;
-      }
-      
-      .modal-content {
-        width: 95%;
-        margin: 10% auto;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .container {
-        padding: 15px;
-      }
-      
-      .btn {
-        width: 100%;
-        margin-bottom: 10px;
-      }
-      
-      .bottom-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-    }
-    
-    /* Animation */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    
-    .fade-in {
-      animation: fadeIn 0.5s ease-in;
-    }
-    
-    /* Utility Classes */
-    .hidden {
-      display: none;
-    }
-    
-    .text-center {
-      text-align: center;
-    }
-    
-    .mt-20 {
-      margin-top: 20px;
-    }
-    
-    .mb-20 {
-      margin-bottom: 20px;
-    }
-    
-    .separator {
-      border: none;
-      height: 1px;
-      background-color: #ddd;
-      margin: 30px 0;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veggie Order Harmonizer</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0fff4;
+        }
+        .app-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        .header-icon {
+            color: #22c55e;
+            margin-right: 0.5rem;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .feature-card {
+            background-color: #f0fff4;
+            border-left: 4px solid #22c55e;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+            border-radius: 0.25rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        th {
+            background-color: #f0fff4;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        .highlighted-row {
+            background-color: #f0fff4;
+            font-weight: 500;
+        }
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .btn-primary {
+            background-color: #22c55e;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #16a34a;
+        }
+        .btn-export {
+            background-color: #3b82f6;
+            color: white;
+            margin-left: 0.5rem;
+        }
+        .btn-export:hover {
+            background-color: #2563eb;
+        }
+        .btn-edit {
+            background-color: #f59e0b;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        .btn-edit:hover {
+            background-color: #d97706;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .flash-highlight {
+            animation: flash 1s ease-out;
+        }
+        @keyframes flash {
+            0% { background-color: #22c55e33; }
+            100% { background-color: transparent; }
+        }
+        .date-display {
+            background-color: #f0fff4;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        .total-row {
+            font-weight: 600;
+            background-color: #f0fff4;
+        }
+        .quantity-cell {
+            font-family: monospace;
+        }
+        .button-group {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 1rem;
+        }
+        .edit-input {
+            width: 100%;
+            padding: 0.25rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.25rem;
+        }
+    </style>
 </head>
 <body>
-  <!-- Header Section -->
-  <header class="header">
-    <div class="notice-bar">
-      🚚 Free delivery on all orders! Order before 5PM for same day delivery 🚚
-    </div>
-    
-    <nav class="navbar">
-      <a href="#home" class="logo">
-        <img src="https://via.placeholder.com/40x40/2e7d32/ffffff?text=PF" alt="Parshv Foods Logo">
-        Parshv Foods
-      </a>
-      
-      <ul class="nav-links">
-        <li><a href="#home" id="homeLink"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="#about" id="aboutLink"><i class="fas fa-info-circle"></i> About</a></li>
-        <li><a href="#contact" id="contactLink"><i class="fas fa-envelope"></i> Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+    <div class="app-container">
+        <!-- Header Section -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-semibold text-gray-800 mb-2 flex justify-center items-center">
+                <i class="fas fa-leaf header-icon"></i>Veggie Order Harmonizer
+            </h1>
+            <p class="text-gray-600">Transform messy vegetable orders into organized, calculated inventory tables.</p>
+        </header>
 
-  <!-- Main Content -->
-  <main class="main-content">
-    <!-- Home Page -->
-    <div id="home" class="container">
-      <!-- Hero Banner -->
-      <div class="hero-banner">
-        <h1>Fresh Vegetables Delivered to Your Doorstep</h1>
-        <p>Farm-fresh, organic produce at affordable prices with free delivery in your area</p>
-        <a href="#orderScreen" class="btn btn-secondary">Order Now</a>
-      </div>
-      
-      <!-- Special Offers -->
-      <div class="offers-section">
-        <h2 class="section-title">Today's Special Offers</h2>
-        <div class="offer-cards">
-          <div class="offer-card">
-            <div class="offer-image" style="background-image: url('https://unsplash.com/photos/a-table-topped-with-lettuce-carrots-and-other-vegetables-Ax57VfNk7x8');"></div>
-            <div class="offer-details">
-              <h3 class="offer-title">Combo Pack - Save 15%</h3>
-              <p class="offer-valid">Valid until: 30th June</p>
-              <p class="offer-desc">Get our seasonal vegetable combo pack at discounted price</p>
+        <!-- Features Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="feature-card">
+                <h3 class="font-medium text-gray-800"><i class="fas fa-magic mr-2 text-green-500"></i>Smart Parsing</h3>
+                <p class="text-sm text-gray-600">Automatically extracts vegetable names and quantities</p>
             </div>
-          </div>
-          <div class="offer-card">
-            <div class="offer-image" style="background-image: url('https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-            <div class="offer-details">
-              <h3 class="offer-title">New Customer Discount</h3>
-              <p class="offer-valid">First order only</p>
-              <p class="offer-desc">Get 10% off on your first order with code WELCOME10</p>
+            <div class="feature-card">
+                <h3 class="font-medium text-gray-800"><i class="fas fa-exchange-alt mr-2 text-green-500"></i>Unit Conversion</h3>
+                <p class="text-sm text-gray-600">Converts kg, g, etc. to standardized format</p>
             </div>
-          </div>
-          <div class="offer-card">
-            <div class="offer-image" style="background-image: url('https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');"></div>
-            <div class="offer-details">
-              <h3 class="offer-title">Weekly Subscription</h3>
-              <p class="offer-valid">Ongoing offer</p>
-              <p class="offer-desc">Subscribe for weekly deliveries and save 5% on every order</p>
+            <div class="feature-card">
+                <h3 class="font-medium text-gray-800"><i class="fas fa-object-group mr-2 text-green-500"></i>Duplicate Merging</h3>
+                <p class="text-sm text-gray-600">Combines same vegetable quantities</p>
             </div>
-          </div>
         </div>
-      </div>
-      
-      <!-- Login Screen -->
-      <div id="loginScreen">
-        <h1 class="section-title">Start Your Order</h1>
-        <form id="loginForm">
-          <div class="form-group">
-            <label for="loginName"><i class="fas fa-user"></i> Your Name</label>
-            <input type="text" id="loginName" placeholder="Enter your full name" required>
-          </div>
-          <div class="form-group">
-            <label for="loginAddress"><i class="fas fa-map-marker-alt"></i> Delivery Address</label>
-            <input type="text" id="loginAddress" placeholder="Enter your complete delivery address" required>
-          </div>
-          <div class="form-group">
-            <label for="loginPhone"><i class="fas fa-phone"></i> Phone Number</label>
-            <input type="tel" id="loginPhone" placeholder="Enter your WhatsApp number" required>
-          </div>
-          <button type="submit" class="btn"><i class="fas fa-sign-in-alt"></i> Continue to Order</button>
-        </form>
-      </div>
 
-      <!-- Order Screen -->
-      <div id="orderScreen" class="hidden">
-        <h1 class="section-title">Select Your Vegetables</h1>
-        <p class="mb-20">All prices are per kg unless specified. Minimum order: ₹100</p>
-        
-        <form id="orderForm">
-          <div class="vegetable-list" id="vegetableList">
-            <!-- Vegetables will be added here dynamically -->
-          </div>
-          
-          <div class="order-summary">
-            <div class="total">
-              <span>Total Amount:</span>
-              <span class="total-amount">₹<span id="totalAmount">0.00</span></span>
+        <!-- Input Section -->
+        <div class="card">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Order Input</h2>
+            <div class="mb-4">
+                <label for="orderText" class="block text-gray-700 mb-2">Order Text</label>
+                <textarea id="orderText" class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Enter your vegetable order here.
+Example format:
+1. Tomatoes - 3 kg
+2. Green Peas - 1 kg
+3. Fenugreek Leaves - 1 kg + 1 kg
+4. French Beans - 1 kg + 700 g
+Or Gujarati format:
+ટામેટા (Tomatoes) - 3kg
+બટાકા (Potatoes) 2kg
+કોબીજ (Cabbage) 500gm"></textarea>
             </div>
-          </div>
-          
-          <!-- Action Buttons -->
-          <div class="bottom-buttons">
-            <button type="button" class="btn btn-secondary" id="viewOrderButton"><i class="fas fa-shopping-cart"></i> View Your Order</button>
-            <button type="submit" class="btn btn-whatsapp"><i class="fab fa-whatsapp"></i> Place Order on WhatsApp</button>
-          </div>
-          
-          <hr class="separator">
-          
-          <!-- Secondary Buttons -->
-          <div class="bottom-buttons">
-            <button type="button" class="btn btn-secondary" id="howToOrderButton"><i class="fas fa-question-circle"></i> How to Order</button>
-            <button type="button" class="btn btn-secondary" id="orderHistoryButton"><i class="fas fa-history"></i> Order History</button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- About Us Page -->
-    <div id="about" class="container hidden">
-      <div class="about-us">
-        <h2 class="section-title">About Parshv Foods</h2>
-        <p>Your trusted source for fresh, high-quality vegetables since 2010</p>
-        
-        <div class="about-content">
-          <div class="about-text">
-            <h3>Our Story</h3>
-            <p>Parshv Foods was founded with a simple mission: to bring farm-fresh vegetables directly to our customers' doorsteps. We work directly with local farmers to ensure you get the freshest produce at fair prices.</p>
-            
-            <h3>Our Promise</h3>
-            <p>We guarantee the quality of all our products. If you're not satisfied with any item, we'll replace it or refund your money.</p>
-            
-            <h3>Why Choose Us?</h3>
-            <ul>
-              <li>100% organic and pesticide-free vegetables</li>
-              <li>Same-day delivery for orders before 5PM</li>
-              <li>Competitive prices with no hidden charges</li>
-              <li>Friendly customer service</li>
-            </ul>
-          </div>
-          
-          <div class="about-image">
-            <img src="https://unsplash.com/photos/cauliflower-lot-zNsSGYXaeP8" alt="Fresh vegetables from Parshv Foods">
-          </div>
+            <div class="button-group">
+                <button id="processBtn" class="btn btn-primary">
+                    <i class="fas fa-sync-alt mr-2"></i>Process Order
+                </button>
+                <button id="exportBtn" class="btn btn-export" disabled>
+                    <i class="fas fa-download mr-2"></i>Export as Image
+                </button>
+                <button id="editTableBtn" class="btn btn-edit ml-2" disabled>
+                    <i class="fas fa-edit mr-2"></i>Edit Table
+                </button>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <!-- Contact Us Page -->
-    <div id="contact" class="container hidden">
-      <h2 class="section-title">Contact Us</h2>
-      <p class="text-center mb-20">Have questions or feedback? We'd love to hear from you!</p>
-      
-      <div class="contact-content">
-        <div class="contact-info" style="margin-bottom: 30px;">
-          <p><i class="fas fa-map-marker-alt"></i> <strong>Address:</strong> 123 Vegetable Market, Main Road, Your City</p>
-          <p><i class="fas fa-phone"></i> <strong>Phone:</strong> +91 7226879663</p>
-          <p><i class="fas fa-envelope"></i> <strong>Email:</strong> parshvfoods@gmail.com</p>
-          <p><i class="fas fa-clock"></i> <strong>Business Hours:</strong> 8AM - 8PM, 7 days a week</p>
+        <!-- Results Section -->
+        <div id="resultsContainer" class="card hidden">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Processed Vegetable List</h2>
+            <div id="currentDate" class="date-display"></div>
+            <div class="overflow-x-auto">
+                <table id="vegetableTable" class="min-w-full">
+                    <thead>
+                        <tr>
+                            <th class="w-1/12">No.</th>
+                            <th class="w-3/12">Name of Vegetables</th>
+                            <th class="w-3/12">Gujarati Name</th>
+                            <th class="w-4/12">Quantity</th>
+                            <th class="w-2/12">Total (Grams)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vegetableTableBody"></tbody>
+                </table>
+            </div>
         </div>
-        
-        <form class="contact-form" id="contactForm">
-          <input type="text" id="contactName" placeholder="Your Name" required>
-          <input type="email" id="contactEmail" placeholder="Your Email" required>
-          <input type="tel" id="contactPhone" placeholder="Your Phone Number">
-          <textarea id="contactMessage" placeholder="Your Message" rows="5" required></textarea>
-          <button type="submit" class="btn"><i class="fas fa-paper-plane"></i> Send Message</button>
-        </form>
-      </div>
+
+        <!-- Footer -->
+        <footer class="mt-8 text-center text-gray-500 text-sm">
+            <p>Veggie Order Harmonizer &copy; 2023</p>
+        </footer>
     </div>
 
-    <!-- How to Order Section -->
-    <div id="howToOrderSection" class="container hidden">
-      <h2 class="section-title">How to Order</h2>
-      <div class="how-to-order">
-        <ol>
-          <li><strong>Log in</strong> with your name, address and phone number</li>
-          <li><strong>Select</strong> the vegetables and quantities you want to order</li>
-          <li><strong>Review</strong> your order by clicking "View Your Order"</li>
-          <li><strong>Click</strong> "Place Order on WhatsApp" to confirm your order</li>
-          <li><strong>You'll be redirected</strong> to WhatsApp to finalize the order with our team</li>
-        </ol>
-        
-        <div class="mt-20">
-          <h3>Payment Options</h3>
-          <ul>
-            <li>Cash on delivery (COD)</li>
-            <li>UPI payment (PhonePe, Google Pay, PayTM)</li>
-            <li>Bank transfer (details will be shared on WhatsApp)</li>
-          </ul>
-        </div>
-        
-        <button class="btn mt-20" id="backToOrderButton"><i class="fas fa-arrow-left"></i> Back to Order Screen</button>
-      </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const processBtn = document.getElementById('processBtn');
+            const exportBtn = document.getElementById('exportBtn');
+            const editTableBtn = document.getElementById('editTableBtn');
+            const orderTextArea = document.getElementById('orderText');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const vegetableTableBody = document.getElementById('vegetableTableBody');
+            const currentDateDisplay = document.getElementById('currentDate');
+            let vegetables = [];
+            let isEditing = false;
 
-    <!-- Order History Section -->
-    <div id="orderHistorySection" class="container hidden">
-      <h2 class="section-title">Your Order History</h2>
-      <div class="order-history">
-        <div id="orderHistory">
-          <p>Your past orders will appear here</p>
-        </div>
-        <button class="btn" id="backToOrderButton2"><i class="fas fa-arrow-left"></i> Back to Order Screen</button>
-      </div>
-    </div>
+            processBtn.addEventListener('click', processOrder);
+            exportBtn.addEventListener('click', exportAsImage);
+            editTableBtn.addEventListener('click', toggleEditMode);
 
-    <!-- Modal for Viewing the Cart -->
-    <div id="cartModal" class="modal hidden">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2 class="section-title">Your Order Summary</h2>
-        <div id="cartItems"></div>
-        <div class="total">
-          <span>Total:</span>
-          <span class="total-amount">₹<span id="cartTotalAmount">0.00</span></span>
-        </div>
-        <p class="mt-20">Ready to place your order?</p>
-        <button class="btn btn-whatsapp" id="placeOrderFromModal"><i class="fab fa-whatsapp"></i> Place Order on WhatsApp</button>
-      </div>
-    </div>
-  </main>
+            function processOrder() {
+                const orderText = orderTextArea.value.trim();
+                if (!orderText) {
+                    alert('Please enter a vegetable order.');
+                    return;
+                }
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>Parshv Foods</h3>
-        <p>Your trusted source for fresh, high-quality vegetables delivered to your doorstep.</p>
-        <div class="social-icons">
-          <a href="#"><i class="fab fa-facebook"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-whatsapp"></i></a>
-        </div>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Quick Links</h3>
-        <a href="#home">Home</a>
-        <a href="#about">About Us</a>
-        <a href="#contact">Contact Us</a>
-        <a href="#howToOrderSection">How to Order</a>
-      </div>
-      
-      <div class="footer-section">
-        <h3>Contact Info</h3>
-        <p><i class="fas fa-map-marker-alt"></i> 123 Vegetable Market, Main Road</p>
-        <p><i class="fas fa-phone"></i> +91 7226879663</p>
-        <p><i class="fas fa-envelope"></i> parshvfoods@gmail.com</p>
-      </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <p>&copy; 2023 Parshv Foods. All Rights Reserved.</p>
-    </div>
-  </footer>
+                // Parse the order
+                vegetables = parseOrder(orderText);
+                
+                // Display results
+                displayResults(vegetables);
+                
+                // Enable export and edit buttons
+                exportBtn.disabled = false;
+                editTableBtn.disabled = false;
+                
+                // Show the results container with animation
+                resultsContainer.classList.remove('hidden');
+                resultsContainer.scrollIntoView({ behavior: 'smooth' });
+            }
 
-  <script>
-    // DOM Elements
-    const homeLink = document.getElementById('homeLink');
-    const aboutLink = document.getElementById('aboutLink');
-    const contactLink = document.getElementById('contactLink');
-    const homePage = document.getElementById('home');
-    const aboutPage = document.getElementById('about');
-    const contactPage = document.getElementById('contact');
-    const contactForm = document.getElementById('contactForm');
-    const howToOrderButton = document.getElementById('howToOrderButton');
-    const orderHistoryButton = document.getElementById('orderHistoryButton');
-    const howToOrderSection = document.getElementById('howToOrderSection');
-    const orderHistorySection = document.getElementById('orderHistorySection');
-    const backToOrderButton = document.getElementById('backToOrderButton');
-    const backToOrderButton2 = document.getElementById('backToOrderButton2');
-    const loginScreen = document.getElementById('loginScreen');
-    const orderScreen = document.getElementById('orderScreen');
-    const loginForm = document.getElementById('loginForm');
-    const loginName = document.getElementById('loginName');
-    const loginAddress = document.getElementById('loginAddress');
-    const loginPhone = document.getElementById('loginPhone');
-    const vegetableList = document.getElementById('vegetableList');
-    const viewOrderButton = document.getElementById('viewOrderButton');
-    const cartModal = document.getElementById('cartModal');
-    const cartItems = document.getElementById('cartItems');
-    const cartTotalAmount = document.getElementById('cartTotalAmount');
-    const closeModal = document.querySelector('.close');
-    const placeOrderFromModal = document.getElementById('placeOrderFromModal');
+            function parseOrder(orderText) {
+                const lines = orderText.split('\n').filter(line => line.trim() !== '');
+                const vegetableMap = new Map();
+                
+                // Enhanced regular expression to match vegetable orders in multiple formats
+                const regex = /(?:^|\d+\.\s*|-\s*)?([^-\d]+?)(?:\s*-\s*|\s+)(\d+(?:\.\d+)?\s*(?:kg|g|gram|grams|kilogram|kilograms)?(?:\s*\+\s*\d+(?:\.\d+)?\s*(?:kg|g|gram|grams|kilogram|kilograms)?)*)/gi;
+                
+                // Process each line
+                for (const line of lines) {
+                    let match;
+                    regex.lastIndex = 0; // Reset regex index
+                    
+                    while ((match = regex.exec(line)) !== null) {
+                        let vegetableName = match[1].trim();
+                        const quantityStr = match[2].trim();
+                        
+                        // Extract Gujarati and English names if present
+                        let gujaratiName = '';
+                        let englishName = '';
+                        
+                        // Check for pattern like "ટામેટા (Tomatoes)"
+                        const nameMatch = vegetableName.match(/([\u0A80-\u0AFF]+)\s*\((.*?)\)/);
+                        
+                        if (nameMatch) {
+                            gujaratiName = nameMatch[1].trim();
+                            englishName = nameMatch[2].trim();
+                            vegetableName = englishName;
+                        } else {
+                            // If no parentheses, check if the name contains Gujarati characters
+                            const hasGujarati = /[\u0A80-\u0AFF]/.test(vegetableName);
+                            if (hasGujarati) {
+                                gujaratiName = vegetableName;
+                                englishName = ''; // No English name provided
+                            } else {
+                                englishName = vegetableName;
+                            }
+                        }
+                        
+                        // Convert quantity to grams
+                        const grams = convertToGrams(quantityStr);
+                        
+                        // Create a unique key combining both names
+                        const vegKey = (englishName || gujaratiName).toLowerCase();
+                        
+                        // Add to map or update existing entry
+                        if (vegetableMap.has(vegKey)) {
+                            const existing = vegetableMap.get(vegKey);
+                            existing.grams += grams;
+                            existing.quantityStrings.push(quantityStr);
+                            // Update names if we have new information
+                            if (gujaratiName && !existing.gujaratiName) {
+                                existing.gujaratiName = gujaratiName;
+                            }
+                            if (englishName && !existing.englishName) {
+                                existing.englishName = englishName;
+                            }
+                        } else {
+                            vegetableMap.set(vegKey, {
+                                englishName: englishName,
+                                gujaratiName: gujaratiName,
+                                grams: grams,
+                                quantityStrings: [quantityStr]
+                            });
+                        }
+                    }
+                }
+                
+                // Convert map to array of objects for easier handling
+                return Array.from(vegetableMap.values()).map(data => ({
+                    englishName: data.englishName,
+                    gujaratiName: data.gujaratiName,
+                    grams: data.grams,
+                    quantityStrings: data.quantityStrings
+                }));
+            }
 
-    // Check if user is already logged in
-    const savedName = localStorage.getItem('userName');
-    const savedAddress = localStorage.getItem('userAddress');
-    const savedPhone = localStorage.getItem('userPhone');
+            function convertToGrams(quantityStr) {
+                let totalGrams = 0;
+                
+                // Split by '+' to handle multiple quantities like "2 kg + 500 g"
+                const quantities = quantityStr.split('+').map(q => q.trim());
+                
+                for (const q of quantities) {
+                    // Extract number and unit
+                    const match = q.match(/(\d+(?:\.\d+)?)\s*(kg|g|gram|grams|kilogram|kilograms)?/i);
+                    
+                    if (match) {
+                        const value = parseFloat(match[1]);
+                        const unit = (match[2] || '').toLowerCase();
+                        
+                        if (unit.startsWith('k')) {
+                            // Convert kg to g
+                            totalGrams += value * 1000;
+                        } else {
+                            // Assume grams if no unit or explicitly 'g'
+                            totalGrams += value;
+                        }
+                    }
+                }
+                
+                return totalGrams;
+            }
 
-    if (savedName && savedAddress && savedPhone) {
-      loginScreen.classList.add('hidden');
-      orderScreen.classList.remove('hidden');
-      loginName.value = savedName;
-      loginAddress.value = savedAddress;
-      loginPhone.value = savedPhone;
-    }
+            function formatQuantityDisplay(quantityStrings, totalGrams) {
+                // Combine all quantity strings with '+' signs
+                const combined = quantityStrings.join(' + ');
+                
+                // Convert total grams to kg if needed
+                if (totalGrams >= 1000) {
+                    const kg = totalGrams / 1000;
+                    return `${combined} = ${kg}kg (${totalGrams}g)`;
+                } else {
+                    return `${combined} = ${totalGrams}g`;
+                }
+            }
 
-    // Navigation Event Listeners
-    homeLink.addEventListener('click', () => {
-      homePage.classList.remove('hidden');
-      aboutPage.classList.add('hidden');
-      contactPage.classList.add('hidden');
-      howToOrderSection.classList.add('hidden');
-      orderHistorySection.classList.add('hidden');
-    });
+            function displayResults(vegetables) {
+                // Clear previous results
+                vegetableTableBody.innerHTML = '';
+                
+                // Display current date
+                const now = new Date();
+                const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+                currentDateDisplay.textContent = `Date: ${now.toLocaleDateString('en-US', options)}`;
+                
+                // Sort vegetables alphabetically by English name
+                vegetables.sort((a, b) => {
+                    const nameA = a.englishName || a.gujaratiName;
+                    const nameB = b.englishName || b.gujaratiName;
+                    return nameA.localeCompare(nameB);
+                });
+                
+                let totalGrams = 0;
+                
+                // Add each vegetable to the table
+                vegetables.forEach((veg, index) => {
+                    const row = document.createElement('tr');
+                    row.dataset.index = index;
+                    
+                    // Format quantity display as shown in the example
+                    const quantityDisplay = formatQuantityDisplay(veg.quantityStrings, veg.grams);
+                    
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td class="veg-name">${veg.englishName || ''}</td>
+                        <td class="guj-name">${veg.gujaratiName || ''}</td>
+                        <td class="quantity-cell veg-quantity">${quantityDisplay}</td>
+                        <td class="veg-grams">${veg.grams.toLocaleString()}</td>
+                    `;
+                    
+                    vegetableTableBody.appendChild(row);
+                    totalGrams += veg.grams;
+                    
+                    // Add highlight animation
+                    setTimeout(() => {
+                        row.classList.add('flash-highlight');
+                    }, index * 100);
+                });
+                
+                // Add total row
+                const totalRow = document.createElement('tr');
+                totalRow.className = 'total-row';
+                totalRow.innerHTML = `
+                    <td colspan="4" class="text-right font-semibold">Final Total:</td>
+                    <td class="total-grams">${totalGrams.toLocaleString()}g</td>
+                `;
+                vegetableTableBody.appendChild(totalRow);
+            }
 
-    aboutLink.addEventListener('click', () => {
-      homePage.classList.add('hidden');
-      aboutPage.classList.remove('hidden');
-      contactPage.classList.add('hidden');
-      howToOrderSection.classList.add('hidden');
-      orderHistorySection.classList.add('hidden');
-    });
+            function toggleEditMode() {
+                isEditing = !isEditing;
+                
+                if (isEditing) {
+                    // Enter edit mode
+                    editTableBtn.innerHTML = '<i class="fas fa-save mr-2"></i>Save Table';
+                    editTableBtn.classList.remove('btn-edit');
+                    editTableBtn.classList.add('btn-primary');
+                    
+                    // Make all cells editable except No. column
+                    const rows = vegetableTableBody.querySelectorAll('tr:not(.total-row)');
+                    rows.forEach(row => {
+                        const index = row.dataset.index;
+                        
+                        // English name
+                        const engCell = row.querySelector('.veg-name');
+                        engCell.contentEditable = true;
+                        engCell.classList.add('border', 'border-gray-300');
+                        
+                        // Gujarati name
+                        const gujCell = row.querySelector('.guj-name');
+                        gujCell.contentEditable = true;
+                        gujCell.classList.add('border', 'border-gray-300');
+                        
+                        // Quantity
+                        const qtyCell = row.querySelector('.veg-quantity');
+                        qtyCell.contentEditable = true;
+                        qtyCell.classList.add('border', 'border-gray-300');
+                        
+                        // Grams
+                        const gramsCell = row.querySelector('.veg-grams');
+                        gramsCell.contentEditable = true;
+                        gramsCell.classList.add('border', 'border-gray-300');
+                    });
+                } else {
+                    // Save changes and exit edit mode
+                    editTableBtn.innerHTML = '<i class="fas fa-edit mr-2"></i>Edit Table';
+                    editTableBtn.classList.remove('btn-primary');
+                    editTableBtn.classList.add('btn-edit');
+                    
+                    // Update the vegetables array with edited values
+                    const rows = vegetableTableBody.querySelectorAll('tr:not(.total-row)');
+                    let totalGrams = 0;
+                    
+                    rows.forEach(row => {
+                        const index = row.dataset.index;
+                        
+                        // Update English name
+                        vegetables[index].englishName = row.querySelector('.veg-name').textContent.trim();
+                        
+                        // Update Gujarati name
+                        vegetables[index].gujaratiName = row.querySelector('.guj-name').textContent.trim();
+                        
+                        // Update quantity and grams
+                        const quantityText = row.querySelector('.veg-quantity').textContent.trim();
+                        const gramsText = row.querySelector('.veg-grams').textContent.trim();
+                        
+                        // Parse quantity if changed
+                        if (quantityText.includes('=')) {
+                            const parts = quantityText.split('=');
+                            const quantities = parts[0].split('+').map(q => q.trim());
+                            vegetables[index].quantityStrings = quantities;
+                        }
+                        
+                        // Update grams
+                        const grams = parseInt(gramsText.replace(/,/g, '')) || 0;
+                        vegetables[index].grams = grams;
+                        totalGrams += grams;
+                        
+                        // Remove editing styles
+                        row.querySelectorAll('[contenteditable="true"]').forEach(cell => {
+                            cell.contentEditable = false;
+                            cell.classList.remove('border', 'border-gray-300');
+                        });
+                    });
+                    
+                    // Update total
+                    document.querySelector('.total-grams').textContent = totalGrams.toLocaleString() + 'g';
+                }
+            }
 
-    contactLink.addEventListener('click', () => {
-      homePage.classList.add('hidden');
-      aboutPage.classList.add('hidden');
-      contactPage.classList.remove('hidden');
-      howToOrderSection.classList.add('hidden');
-      orderHistorySection.classList.add('hidden');
-    });
-
-    // How to Order Button
-    howToOrderButton.addEventListener('click', () => {
-      homePage.classList.add('hidden');
-      aboutPage.classList.add('hidden');
-      contactPage.classList.add('hidden');
-      howToOrderSection.classList.remove('hidden');
-      orderHistorySection.classList.add('hidden');
-    });
-
-    // Order History Button
-    orderHistoryButton.addEventListener('click', () => {
-      homePage.classList.add('hidden');
-      aboutPage.classList.add('hidden');
-      contactPage.classList.add('hidden');
-      howToOrderSection.classList.add('hidden');
-      orderHistorySection.classList.remove('hidden');
-      loadOrderHistory();
-    });
-
-    // Back to Order Screen Buttons
-    backToOrderButton.addEventListener('click', () => {
-      homePage.classList.remove('hidden');
-      aboutPage.classList.add('hidden');
-      contactPage.classList.add('hidden');
-      howToOrderSection.classList.add('hidden');
-      orderHistorySection.classList.add('hidden');
-    });
-
-    backToOrderButton2.addEventListener('click', () => {
-      homePage.classList.remove('hidden');
-      aboutPage.classList.add('hidden');
-      contactPage.classList.add('hidden');
-      howToOrderSection.classList.add('hidden');
-      orderHistorySection.classList.add('hidden');
-    });
-
-    // Contact Form Submission
-    contactForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const name = document.getElementById('contactName').value;
-      const email = document.getElementById('contactEmail').value;
-      const phone = document.getElementById('contactPhone').value;
-      const message = document.getElementById('contactMessage').value;
-
-      // Redirect to Gmail with pre-filled details
-      const subject = "New Contact Form Submission - Parshv Foods";
-      const body = `Name: ${name}%0D%0AEmail: ${email}%0D%0APhone: ${phone}%0D%0AMessage: ${message}`;
-      const mailtoLink = `mailto:parshvfoods@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailtoLink;
-
-      // Clear form
-      contactForm.reset();
-      alert('Thank you for contacting us! Your message has been sent.');
-    });
-
-    // Login Form Submission
-    loginForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const name = loginName.value.trim();
-      const address = loginAddress.value.trim();
-      const phone = loginPhone.value.trim();
-      
-      if (!name || !address || !phone) {
-        alert('Please fill in all fields');
-        return;
-      }
-      
-      localStorage.setItem('userName', name);
-      localStorage.setItem('userAddress', address);
-      localStorage.setItem('userPhone', phone);
-      loginScreen.classList.add('hidden');
-      orderScreen.classList.remove('hidden');
-      
-      // Scroll to order section
-      document.querySelector('#orderScreen').scrollIntoView({ behavior: 'smooth' });
-    });
-
-    // Vegetables Data
-    const vegetables = [
-      { name: 'ટામેટાં (Tomatoes)', price: 30, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'ફુલાવર (Cauliflower)', price: 50, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'દેશી કોબીજ (Desi Cabbage)', price: 30, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'ભીંડા (Okra)', price: 80, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'વટાણા (Green Peas)', price: 70, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'કાચા કેળા (Raw Bananas)', price: 50, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'દૂધી (Bottle Gourd)', price: 50, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'દેશી દૂધી (Desi Bottle Gourd)', price: 80, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'તુરીયું (Ridge Gourd)', price: 80, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'કારેલા (Bitter Gourd)', price: 80, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'ટિંડોળા (Ivy Gourd)', price: 130, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'ચોળી (Green Beans)', price: 140, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'પાપડી (Snake Gourd)', price: 160, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'તુવેર (Drumsticks)', price: 160, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'દેશી કાકડી (Desi Cucumber)', price: 90, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'ગવાર (Cluster Beans)', price: 140, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'મેથી (Fenugreek Leaves)', price: 50, unit: 'kg', options: ['kg', 'gram'], category: 'greens' },
-      { name: 'ચોલિયા ની ભાજી (Chickpea Greens)', price: 80, unit: 'kg', options: ['kg', 'gram'], category: 'greens' },
-      { name: 'મકાઈ (Corn)', price: 30, unit: 'piece', options: ['piece'], category: 'vegetables' },
-      { name: 'લીંબુ (Lemon)', price: 180, unit: 'kg', options: ['kg', 'piece'], category: 'fruits' },
-      { name: 'કેપ્સિકમ (Capsicum)', price: 70, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'કોથમીર (Coriander)', price: 100, unit: 'kg', options: ['kg', 'gram'], category: 'herbs' },
-      { name: 'આમળા (Amla)', price: 140, unit: 'kg', options: ['kg', 'gram'], category: 'fruits' },
-      { name: 'ફણસી (Jackfruit)', price: 100, unit: 'kg', options: ['kg', 'gram'], category: 'fruits' },
-      { name: 'લાલ મોગરી (Red Radish)', price: 60, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'લીલી મોગરી (White Radish)', price: 60, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'રેગ્યુલર મરચા (Regular Chilies)', price: 80, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'મોરા મરચા (Mora Chilies)', price: 100, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'લાલ મરચા (Red Chilies)', price: 120, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'લવીંગ્યા મરચા (Lavangya Chilies)', price: 100, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'કાચી કેરી (Raw Mango)', price: 80, unit: 'kg', options: ['kg', 'gram'], category: 'fruits' },
-      { name: 'પરવર (Parwal)', price: 140, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'ફુદિનો (Pudina)', price: 80, unit: 'kg', options: ['kg', 'gram'], category: 'herbs' },
-      { name: 'મીઠો લીંમડો (Sweet Lime)', price: 120, unit: 'kg', options: ['kg', 'gram'], category: 'fruits' },
-      { name: 'બ્રોકલી (Broccoli)', price: 150, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'જુગની (Zucchini)', price: 120, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'બેબીકોન (Baby Corn)', price: 200, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'બેસિલ પત્તા (Basil Leaves)', price: 180, unit: 'kg', options: ['kg', 'gram'], category: 'herbs' },
-      { name: 'લાલ કેપ્સિકમ (Red Capsicum)', price: 90, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'પીળું કેપ્સિકમ (Yellow Capsicum)', price: 90, unit: 'kg', options: ['kg', 'gram'], category: 'vegetables' },
-      { name: 'લીલી ચા (Green Tea Leaves)', price: 300, unit: 'kg', options: ['kg', 'gram'], category: 'herbs' },
-      { name: 'સફરજન (Apple)', price: 200, unit: 'kg', options: ['kg', 'gram'], category: 'fruits' },
-    ];
-
-    // Function to render vegetables by category
-    function renderVegetables() {
-      const categories = [...new Set(vegetables.map(veg => veg.category))];
-      
-      let html = '';
-      
-      categories.forEach(category => {
-        const categoryVegs = vegetables.filter(veg => veg.category === category);
-        const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
-        
-        html += `
-          <div class="vegetable-category">
-            <h3 class="category-title">${categoryName}</h3>
-            ${categoryVegs.map(veg => `
-              <div class="vegetable-item">
-                <div class="vegetable-info">
-                  <span class="vegetable-name">${veg.name}</span>
-                  <span class="vegetable-price">₹${veg.price}/${veg.unit}</span>
-                </div>
-                <div class="vegetable-controls">
-                  <input type="number" min="0" step="0.1" value="0" id="${veg.name.replace(/\s+/g, '-').toLowerCase()}-qty" class="quantity-input">
-                  <select id="${veg.name.replace(/\s+/g, '-').toLowerCase()}-unit" class="unit-select">
-                    ${veg.options.map(option => `<option value="${option}">${option}</option>`).join('')}
-                  </select>
-                  <div class="item-total" id="${veg.name.replace(/\s+/g, '-').toLowerCase()}-price">₹0.00</div>
-                </div>
-              </div>
-            `).join('')}
-          </div>
-        `;
-      });
-      
-      vegetableList.innerHTML = html;
-    }
-
-    // Function to calculate total price
-    function calculateTotal() {
-      let total = 0;
-      vegetables.forEach(veg => {
-        const vegId = veg.name.replace(/\s+/g, '-').toLowerCase();
-        const qtyInput = document.getElementById(`${vegId}-qty`);
-        const unitSelect = document.getElementById(`${vegId}-unit`);
-        const priceDisplay = document.getElementById(`${vegId}-price`);
-        
-        const qty = parseFloat(qtyInput.value) || 0;
-        const unit = unitSelect.value;
-        let price = veg.price;
-
-        // Convert grams to kilograms if necessary
-        if (unit === 'gram') {
-          price = price / 1000;
-        }
-
-        const itemTotal = qty * price;
-        total += itemTotal;
-
-        // Update the price display for each vegetable
-        priceDisplay.textContent = `₹${itemTotal.toFixed(2)}`;
-      });
-
-      // Update the total amount
-      const totalAmount = document.getElementById('totalAmount');
-      totalAmount.textContent = total.toFixed(2);
-      
-      // Also update cart total
-      cartTotalAmount.textContent = total.toFixed(2);
-    }
-
-    // Function to load order history
-    function loadOrderHistory() {
-      const orders = JSON.parse(localStorage.getItem('orders')) || [];
-      
-      if (orders.length === 0) {
-        orderHistory.innerHTML = '<p>You have no previous orders yet.</p>';
-        return;
-      }
-      
-      orderHistory.innerHTML = orders.map((order, index) => `
-        <div class="order-item">
-          <h3>Order #${orders.length - index}</h3>
-          <p><strong>Date:</strong> ${order.date}</p>
-          <p><strong>Name:</strong> ${order.name}</p>
-          <p><strong>Address:</strong> ${order.address}</p>
-          <p><strong>Items:</strong></p>
-          <div style="margin-left: 20px; white-space: pre-line;">${order.items}</div>
-          <p><strong>Total:</strong> ₹${order.total}</p>
-        </div>
-      `).join('');
-    }
-
-    // Event listener for quantity and unit changes
-    vegetableList.addEventListener('input', calculateTotal);
-
-    // Function to place order
-    function placeOrder() {
-      const name = localStorage.getItem('userName');
-      const address = localStorage.getItem('userAddress');
-      const phone = localStorage.getItem('userPhone');
-      
-      if (!name || !address || !phone) {
-        alert('Please log in first');
-        return;
-      }
-      
-      const items = vegetables.map(veg => {
-        const vegId = veg.name.replace(/\s+/g, '-').toLowerCase();
-        const qtyInput = document.getElementById(`${vegId}-qty`);
-        const unitSelect = document.getElementById(`${vegId}-unit`);
-        const qty = parseFloat(qtyInput.value) || 0;
-        const unit = unitSelect.value;
-        let price = veg.price;
-
-        // Convert grams to kilograms if necessary
-        if (unit === 'gram') {
-          price = price / 1000;
-        }
-
-        const itemTotal = qty * price;
-
-        if (qty > 0) {
-          return `${veg.name} - ${qty} ${unit} @ ₹${veg.price}/${veg.unit} = ₹${itemTotal.toFixed(2)}`;
-        }
-        return null;
-      }).filter(item => item !== null).join('\n');
-
-      const total = parseFloat(document.getElementById('totalAmount').textContent);
-
-      if (items.length === 0) {
-        alert('Please select at least one item to place an order.');
-        return false;
-      }
-
-      const order = {
-        name,
-        address,
-        phone,
-        items,
-        total,
-        date: new Date().toLocaleString(),
-      };
-
-      // Save order to history
-      const orders = JSON.parse(localStorage.getItem('orders')) || [];
-      orders.push(order);
-      localStorage.setItem('orders', JSON.stringify(orders));
-
-      // Redirect to WhatsApp
-      const message = `*New Order - Parshv Foods*%0A%0AName: ${name}%0AAddress: ${address}%0APhone: ${phone}%0A%0A*Order Details:*%0A${items.replace(/\n/g, '%0A')}%0A%0A*Total: ₹${total.toFixed(2)}*%0A%0ADelivery instructions (if any):`;
-      const whatsappUrl = `https://wa.me/917226879663?text=${encodeURIComponent(message)}`;
-      window.open(whatsappUrl, '_blank');
-
-      return true;
-    }
-
-    // Order Form Submission
-    document.getElementById('orderForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      placeOrder();
-    });
-
-    // Place order from modal
-    placeOrderFromModal.addEventListener('click', function() {
-      if (placeOrder()) {
-        cartModal.classList.add('hidden');
-      }
-    });
-
-    // Function to display the current cart in the modal
-    function viewOrder() {
-      const items = vegetables
-        .map((veg) => {
-          const vegId = veg.name.replace(/\s+/g, '-').toLowerCase();
-          const qtyInput = document.getElementById(`${vegId}-qty`);
-          const unitSelect = document.getElementById(`${vegId}-unit`);
-          const qty = parseFloat(qtyInput.value) || 0;
-          const unit = unitSelect.value;
-
-          if (qty > 0) {
-            return `<div class="cart-item">
-                      <span>${veg.name} - ${qty} ${unit}</span>
-                      <span>₹${(qty * (unit === 'gram' ? veg.price / 1000 : veg.price)).toFixed(2)}</span>
-                    </div>`;
-          }
-          return null;
-        })
-        .filter((item) => item !== null)
-        .join('');
-
-      const total = parseFloat(document.getElementById('totalAmount').textContent);
-
-      if (items.length === 0) {
-        cartItems.innerHTML = '<p>Your cart is empty. Please add some items to view your order.</p>';
-      } else {
-        cartItems.innerHTML = items;
-      }
-
-      cartTotalAmount.textContent = total.toFixed(2);
-      cartModal.classList.remove('hidden');
-    }
-
-    // Add event listener for the "View Your Order" button
-    viewOrderButton.addEventListener('click', viewOrder);
-
-    // Close the modal when the close button is clicked
-    closeModal.addEventListener('click', () => {
-      cartModal.classList.add('hidden');
-    });
-
-    // Close the modal when clicking outside the modal
-    window.addEventListener('click', (e) => {
-      if (e.target === cartModal) {
-        cartModal.classList.add('hidden');
-      }
-    });
-
-    // Initial render
-    renderVegetables();
-    calculateTotal();
-  </script>
+            function exportAsImage() {
+                // Get the entire results container including the date
+                const element = document.getElementById('resultsContainer');
+                
+                html2canvas(element).then(canvas => {
+                    // Create a temporary link to download the image
+                    const link = document.createElement('a');
+                    const dateStr = document.getElementById('currentDate').textContent
+                        .replace(/Date: /, '')
+                        .replace(/,/g, '')
+                        .replace(/\s+/g, '_');
+                    
+                    link.download = `Vegetable_Order_${dateStr}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                });
+            }
+        });
+    </script>
 </body>
 </html>
