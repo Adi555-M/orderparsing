@@ -127,6 +127,18 @@
             border: 1px solid #e2e8f0;
             border-radius: 0.25rem;
         }
+        .order-input-container {
+            display: flex;
+            flex-direction: column;
+        }
+        .order-list {
+            order: 2;
+            margin-top: 1rem;
+        }
+        .order-total {
+            order: 1;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -158,18 +170,24 @@
         <!-- Input Section -->
         <div class="card">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Order Input</h2>
-            <div class="mb-4">
-                <label for="orderText" class="block text-gray-700 mb-2">Order Text</label>
-                <textarea id="orderText" class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Enter your vegetable order here.
-Example format:
-1. Tomatoes - 3 kg
-2. Green Peas - 1 kg
-3. Fenugreek Leaves - 1 kg + 1 kg
-4. French Beans - 1 kg + 700 g
-Or Gujarati format:
-ટામેટા (Tomatoes) - 3kg
-બટાકા (Potatoes) 2kg
-કોબીજ (Cabbage) 500gm"></textarea>
+            <div class="order-input-container">
+                <div class="order-total">
+                    <label for="orderTotal" class="block text-gray-700 mb-2">Total Amount</label>
+                    <input type="text" id="orderTotal" class="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Enter total amount">
+                </div>
+                <div class="order-list mb-4">
+                    <label for="orderText" class="block text-gray-700 mb-2">Vegetable List</label>
+                    <textarea id="orderText" class="w-full border border-gray-300 rounded-md p-3 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="Enter vegetable list here (one item per line)
+Example:
+Tomatoes - 3 kg
+Green Peas - 1 kg
+Fenugreek Leaves - 1 kg + 1 kg
+French Beans - 1 kg + 700 g
+Or Gujarati:
+ટામેટા - 3kg
+બટાકા 2kg
+કોબીજ 500gm"></textarea>
+                </div>
             </div>
             <div class="button-group">
                 <button id="processBtn" class="btn btn-primary">
@@ -216,6 +234,7 @@ Or Gujarati format:
             const exportBtn = document.getElementById('exportBtn');
             const editTableBtn = document.getElementById('editTableBtn');
             const orderTextArea = document.getElementById('orderText');
+            const orderTotalInput = document.getElementById('orderTotal');
             const resultsContainer = document.getElementById('resultsContainer');
             const vegetableTableBody = document.getElementById('vegetableTableBody');
             const currentDateDisplay = document.getElementById('currentDate');
@@ -229,7 +248,7 @@ Or Gujarati format:
             function processOrder() {
                 const orderText = orderTextArea.value.trim();
                 if (!orderText) {
-                    alert('Please enter a vegetable order.');
+                    alert('Please enter vegetable items.');
                     return;
                 }
 
@@ -252,17 +271,20 @@ Or Gujarati format:
                 const lines = orderText.split('\n').filter(line => line.trim() !== '');
                 const vegetableMap = new Map();
                 
-                // Enhanced regular expression to match vegetable orders in multiple formats
-                const regex = /(?:^|\d+\.\s*|-\s*)?([^-\d]+?)(?:\s*-\s*|\s+)(\d+(?:\.\d+)?\s*(?:kg|g|gram|grams|kilogram|kilograms)?(?:\s*\+\s*\d+(?:\.\d+)?\s*(?:kg|g|gram|grams|kilogram|kilograms)?)*)/gi;
+                // Enhanced regular expression to match vegetable orders
+                const regex = /^\s*([^-\d]+?)\s*(?:-\s*|\s+)(\d+(?:\.\d+)?\s*(?:kg|g|gram|grams|kilogram|kilograms)?(?:\s*\+\s*\d+(?:\.\d+)?\s*(?:kg|g|gram|grams|kilogram|kilograms)?)*/i;
                 
-                // Process each line
-                for (const line of lines) {
-                    let match;
-                    regex.lastIndex = 0; // Reset regex index
+                // Process each line from bottom to top
+                for (let i = lines.length - 1; i >= 0; i--) {
+                    const line = lines[i].trim();
+                    const match = line.match(regex);
                     
-                    while ((match = regex.exec(line)) !== null) {
+                    if (match) {
                         let vegetableName = match[1].trim();
-                        const quantityStr = match[2].trim();
+                        const quantityStr = match[2] ? match[2].trim() : '';
+                        
+                        // Skip lines that might be personal info (phone numbers, addresses)
+                        if (isPersonalInfo(vegetableName)) continue;
                         
                         // Extract Gujarati and English names if present
                         let gujaratiName = '';
@@ -287,7 +309,7 @@ Or Gujarati format:
                         }
                         
                         // Convert quantity to grams
-                        const grams = convertToGrams(quantityStr);
+                        const grams = quantityStr ? convertToGrams(quantityStr) : 0;
                         
                         // Create a unique key combining both names
                         const vegKey = (englishName || gujaratiName).toLowerCase();
@@ -296,7 +318,7 @@ Or Gujarati format:
                         if (vegetableMap.has(vegKey)) {
                             const existing = vegetableMap.get(vegKey);
                             existing.grams += grams;
-                            existing.quantityStrings.push(quantityStr);
+                            if (quantityStr) existing.quantityStrings.push(quantityStr);
                             // Update names if we have new information
                             if (gujaratiName && !existing.gujaratiName) {
                                 existing.gujaratiName = gujaratiName;
@@ -309,19 +331,21 @@ Or Gujarati format:
                                 englishName: englishName,
                                 gujaratiName: gujaratiName,
                                 grams: grams,
-                                quantityStrings: [quantityStr]
+                                quantityStrings: quantityStr ? [quantityStr] : []
                             });
                         }
                     }
                 }
                 
                 // Convert map to array of objects for easier handling
-                return Array.from(vegetableMap.values()).map(data => ({
-                    englishName: data.englishName,
-                    gujaratiName: data.gujaratiName,
-                    grams: data.grams,
-                    quantityStrings: data.quantityStrings
-                }));
+                return Array.from(vegetableMap.values()).filter(veg => 
+                    veg.englishName || veg.gujaratiName
+                );
+            }
+
+            function isPersonalInfo(text) {
+                // Skip phone numbers, addresses, etc.
+                return /(\d{10,})|(address)|(phone)|(contact)/i.test(text);
             }
 
             function convertToGrams(quantityStr) {
@@ -352,6 +376,8 @@ Or Gujarati format:
             }
 
             function formatQuantityDisplay(quantityStrings, totalGrams) {
+                if (quantityStrings.length === 0) return '0g';
+                
                 // Combine all quantity strings with '+' signs
                 const combined = quantityStrings.join(' + ');
                 
@@ -387,7 +413,7 @@ Or Gujarati format:
                     const row = document.createElement('tr');
                     row.dataset.index = index;
                     
-                    // Format quantity display as shown in the example
+                    // Format quantity display
                     const quantityDisplay = formatQuantityDisplay(veg.quantityStrings, veg.grams);
                     
                     row.innerHTML = `
@@ -415,6 +441,11 @@ Or Gujarati format:
                     <td class="total-grams">${totalGrams.toLocaleString()}g</td>
                 `;
                 vegetableTableBody.appendChild(totalRow);
+                
+                // Update with order total if provided
+                if (orderTotalInput.value) {
+                    totalRow.cells[1].textContent += ` (Order Total: ${orderTotalInput.value})`;
+                }
             }
 
             function toggleEditMode() {
